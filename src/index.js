@@ -5,19 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 
-function makeComment (id, detail) {
-  setInterval(() => {
-    window.dispatchEvent(
-      new CustomEvent(`group-${id}`, {
-        detail: detail
-      })
-    )
-  }, 1500)
-}
+// function makeComment (id, detail) {
+//   setInterval(() => {
+//     window.dispatchEvent(
+//       new CustomEvent(`group-${id}`, {
+//         detail: detail
+//       })
+//     )
+//   }, 1500)
+// }
 
-makeComment(1, "Nhóm chat học tập");
-makeComment(2, "Nhóm chat bóng đá");
-makeComment(3, "Nhóm chat tiếng Anh");
+// makeComment(1, "Nhóm chat học tập");
+// makeComment(2, "Nhóm chat bóng đá");
+// makeComment(3, "Nhóm chat tiếng Anh");
 
 
 ReactDOM.render(
