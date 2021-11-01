@@ -411,5 +411,68 @@
 //#endregion
 
 //#region useReducer
+// Hoạt động và ứng dụng như useState
+// Xử lí những state có KDL phức tạp, Component có nhiều state phụ thuộc nhau
+
+/* useSate */
+// 1. Initial state
+// 2. Actions
+
+/* useReducer */
+// 1. Initial state
+// 2. Actions
+// 3. Reducer
+// 4. Dispatch
+
+//#region Counting app
+// import { useReducer } from 'react';
+
+// // 1. Initial state
+// const initialCount = 0;
+
+// // 2. Actions
+// const UP_ACTION = 'UP';
+// const DOWN_ACTION = 'DOWN';
+// const REFRESH_ACTION = 'REFRESH';
+
+// // 3. Reducer
+// const reducer = (state, action) => {
+//     switch(action) {
+//         case UP_ACTION: 
+//             return (state + 1);
+//         case DOWN_ACTION: 
+//             return (state - 1);
+//         case REFRESH_ACTION:
+//             return initialCount;
+//         default:
+//             throw new Error('Invalid action!');
+//     }
+// }
+
+// function Content () {
+//     const [count, dispatch] = useReducer(reducer, initialCount);
+
+//     return (
+//         <div>
+//             <h1>{count}</h1>
+//             <button onClick={() => dispatch(DOWN_ACTION)}>
+//                 DOWN
+//             </button>
+//             <button onClick={() => dispatch(UP_ACTION)}>
+//                 UP
+//             </button>
+//             <button onClick={() => dispatch(REFRESH_ACTION)}>
+//                 REFRESH
+//             </button>
+//         </div>
+//     )
+// }
+
+// export default Content;
+//#endregion
+
+//#region Todo app
+
+//#endregion
 
 //#endregion
