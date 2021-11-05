@@ -247,6 +247,23 @@
 // }
 
 // export default Content;
+
+/*  Trong file index.js cùng cấp 
+function makeComment (id, detail) {
+  setInterval(() => {
+    window.dispatchEvent(
+      new CustomEvent(`group-${id}`, {
+        detail: detail
+      })
+    )
+  }, 1500)
+}
+
+makeComment(1, "Nhóm chat học tập");
+makeComment(2, "Nhóm chat bóng đá");
+makeComment(3, "Nhóm chat tiếng Anh");
+*/
+
 //#endregion
 
 //#region useRef: 
@@ -344,6 +361,24 @@
 // }
 
 // export default Content;
+
+
+/*  File ContentChild cùng cấp 
+
+import React from 'react';
+
+function ContentChild ({ onIncrease }) {
+    console.log('re-render ContentChild');
+
+    return (
+        <button onClick={onIncrease}>
+            Count
+        </button>
+    );
+}
+
+export default React.memo(ContentChild);    */
+
 //#endregion
 
 //#region useMemo
@@ -471,8 +506,230 @@
 // export default Content;
 //#endregion
 
-//#region Todo app
+// //#region Todo app (specific implementation)
+// import { useReducer, useRef } from "react";
+
+// // 1. Init state
+// const initState = {
+//     job: '',
+//     jobs: []
+// }
+
+// // 2. Actions
+// const SET_JOB = "set_job";
+// const ADD_JOB = "add_job";
+// const DELETE_JOB = "delete_job";
+
+// const setJob = (payload) => ({
+//     type: SET_JOB,
+//     payload: payload
+// })
+
+// const addJob = (payload) => ({
+//     type: ADD_JOB,
+//     payload: payload
+// })
+
+// const deleteJob = (payload) => ({
+//     type: DELETE_JOB,
+//     payload: payload
+// })
+
+// // 3. Reducer
+// const reducer = (state, action) => {
+//     switch (action.type) {
+//         case SET_JOB: {
+//             return {
+//                 ...state,
+//                 job: action.payload
+//             }
+//         }
+//         case ADD_JOB: {
+//             return {
+//                 ...state,
+//                 jobs: [...state.jobs, action.payload]
+//             }
+//         }
+//         case DELETE_JOB: {
+//             let newJobs = [...state.jobs];
+//             newJobs.splice(action.payload, 1);
+
+//             return {
+//                 ...state,
+//                 jobs: newJobs
+//             }
+//         }
+//         default:
+//             throw new Error("Invalid action");
+//     }
+// }
+
+// function Content () {
+//     const [state, dispatch] = useReducer(reducer, initState);
+//     const { job, jobs } = state;
+//     const inputRef = useRef();
+
+//     const handleAddJob = (job) => {
+//         if (job.trim() !== '') {
+//             // add job
+//             dispatch(addJob(job));
+
+//             // cleanup input
+//             dispatch(setJob(""));
+
+//             // auto focus after add
+//             inputRef.current.focus();
+//         }
+//     }
+
+//     return (
+//         <div>
+//             <input 
+//                 ref={inputRef}
+//                 value={job}
+//                 placeholder="Job"
+//                 onChange={(e) => dispatch(setJob(e.target.value))}
+//             />
+//             <button onClick={() => handleAddJob(job)}>
+//                 ADD
+//             </button>
+
+//             {jobs.map((job, index) => (
+//                 <li key={index}>
+//                     {job}
+//                     <span 
+//                         onClick={() => dispatch(deleteJob(index))}
+//                         style={{ cursor: 'default' }}
+//                     >
+//                         &times;
+//                     </span>
+//                 </li>
+//             ))}
+//         </div>
+//     )
+// }
+
+// export default Content;
+// //#endregion
+
+//#region Todo app (modularization)
+// import TodoApp from "./TodoApp/index";
+
+// function Content () {
+//     return <TodoApp />;
+// }
+
+// export default Content;
+//#endregion
 
 //#endregion
 
+//#region useContext hook
+// -> Giúp truyền dữ liệu từ component cha xuống các component cấp con 1 cách dễ dàng
+
+// 1. Create Context
+// 2. Provider
+// 3. Comsumer
+//#endregion
+
+//#region useReducer + useContext hook
+import { useContext, useRef, useState } from "react";
+import { StoreContext } from "./store";
+import { actions } from "./state";
+
+function Content() {
+  const [state, dispatch] = useContext(StoreContext);
+  const { job, jobs } = state;
+  const inputRef = useRef();
+
+  const [enableUpdate, setEnableUpdate] = useState(false);
+  const [updateIndex, setUpdateIndex] = useState();
+  const spanRef = useRef();
+
+  const handleAddJob = (newJob) => {
+    if (newJob.trim().length > 0) {
+      // add job
+      dispatch(actions.addJob(newJob));
+
+      // cleanup input
+      dispatch(actions.setJob(""));
+
+      // autofocus after add
+      inputRef.current.focus();
+    }
+  }
+
+  const handleUpdateJob = ({index, newJob}) => {
+    if (newJob.trim().length > 0) {
+      dispatch(actions.updateJob({index, newJob}));
+    }
+  }
+
+  const handleDeleteJob = (index) => {
+    dispatch(actions.deleteJob(index));
+  }
+
+
+  return (
+    <div>
+      <input 
+        ref={inputRef}
+        value={job}
+        placeholder="Enter job.."
+        onChange={(e) => dispatch(actions.setJob(e.target.value))}
+      />
+
+      <button onClick={() => handleAddJob(job)}>
+        ADD
+      </button>
+
+      {jobs.map((job, index) => (
+        <li key={index}>
+          {(updateIndex === index) 
+            ? (<span 
+                ref={spanRef}
+                contentEditable={enableUpdate && (updateIndex === index)}
+                suppressContentEditableWarning={true}
+              >
+                {job}
+              </span>)
+            : (<span 
+                contentEditable={enableUpdate && (updateIndex === index)}
+                suppressContentEditableWarning={true}
+              >
+                {job}
+              </span>)
+          }
+          
+          <button 
+            style={{ marginLeft: 10 }}
+            onClick={() => {
+              setEnableUpdate(true);
+              setUpdateIndex(index);
+              // spanRef.current.click();
+            }}
+          >
+            update
+          </button>
+
+          {enableUpdate && (updateIndex === index) && (
+            <button onClick={() => {
+              const newJob = spanRef.current.innerHTML;
+              handleUpdateJob({index, newJob});
+              setUpdateIndex();
+            }}>
+              save
+            </button>
+          )}
+
+          <button onClick={() => handleDeleteJob(index)}>
+            delete
+          </button>
+        </li>
+      ))}
+    </div>
+  )
+}
+
+export default Content;
 //#endregion
