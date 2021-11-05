@@ -10,6 +10,11 @@ export const addJob = (payload) => ({
     payload: payload
 })
 
+export const setJobInUpdateInput = (payload) => ({
+    type: constants.SET_JOB_IN_UPDATE_INPUT,
+    payload: payload
+})
+
 export const updateJob = (payload) => ({
     type: constants.UPDATE_JOB,
     payload: payload

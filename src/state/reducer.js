@@ -2,7 +2,8 @@ import { constants } from "./index";
 
 const initState = {
     job: '',
-    jobs: []
+    jobs: [],
+    jobInUpdateInput: ''
 }
 
 function reducer (state, action) {
@@ -19,22 +20,21 @@ function reducer (state, action) {
                 jobs: [...state.jobs, action.payload]
             }
         }
+        case constants.SET_JOB_IN_UPDATE_INPUT: {
+            return {
+                ...state,
+                jobInUpdateInput: action.payload.jobInUpdateInput
+            }
+        }
         case constants.UPDATE_JOB: {
             const newJob = action.payload.newJob;
-            const jobIndex = action.payload.index;
-            // console.log("newJob: ", newJob);
-            
+            const index = action.payload.index;
             const newJobs = [...state.jobs];
-            // console.log("newJobs[jobIndex]: ", newJobs[jobIndex]);
-
-
-            newJobs[jobIndex] = newJob;
-            // console.log("newJobs: ", newJobs);
+            newJobs[index] = newJob;
 
             return {
                 ...state,
-                // jobs: newJobs
-                jobs: ["mot", "hai", "ba"]
+                jobs: newJobs
             }
         }
         case constants.DELETE_JOB: {

@@ -632,104 +632,142 @@ export default React.memo(ContentChild);    */
 // 3. Comsumer
 //#endregion
 
-//#region useReducer + useContext hook
-import { useContext, useRef, useState } from "react";
-import { StoreContext } from "./store";
-import { actions } from "./state";
+//#region Context + useContext + useReducer hook
+// import { useContext, useRef, useState } from "react";
+// import { StoreContext } from "./store";
+// import { actions } from "./state";
 
-function Content() {
-  const [state, dispatch] = useContext(StoreContext);
-  const { job, jobs } = state;
-  const inputRef = useRef();
+// function Content() {
+//   const [state, dispatch] = useContext(StoreContext);
+//   const { job, jobs, jobInUpdateInput } = state;
+//   const inputRef = useRef();
+//   const [updateIndex, setUpdateIndex] = useState();
 
-  const [enableUpdate, setEnableUpdate] = useState(false);
-  const [updateIndex, setUpdateIndex] = useState();
-  const spanRef = useRef();
+//   const handleAddJob = (newJob) => {
+//     if (newJob.trim().length > 0) {
+//       dispatch(actions.addJob(newJob));
+//       // cleanup input
+//       dispatch(actions.setJob(""));
+//       // autofocus after add
+//       inputRef.current.focus();
 
-  const handleAddJob = (newJob) => {
-    if (newJob.trim().length > 0) {
-      // add job
-      dispatch(actions.addJob(newJob));
+//       // khi addJob xong thì hiện tại sẽ không thể có job nào 
+//       // đang được update nên set lại updateIndex = -1 (index ko hợp lệ)
+//       setUpdateIndex(-1);
+//     }
+//   }
+//   const handleUpdateJob = ({index, newJob}) => {
+//     if (newJob.trim().length > 0) {
+//       dispatch(actions.updateJob({index, newJob}));
 
-      // cleanup input
-      dispatch(actions.setJob(""));
+//       // khi updateJob xong thì hiện tại sẽ không thể có job nào 
+//       // đang được update nữa nên set lại updateIndex = -1 (index ko hợp lệ)
+//       setUpdateIndex(-1);
+//     }
+//   }
+//   const handleDeleteJob = (index) => {
+//     dispatch(actions.deleteJob(index));
+    
+//     // khi deleteJob xong thì hiện tại sẽ không thể có job nào 
+//     // đang được update nên set lại updateIndex = -1 (index ko hợp lệ)
+//     setUpdateIndex(-1);
+//   }
 
-      // autofocus after add
-      inputRef.current.focus();
-    }
-  }
+//   return (
+//     <div>
+//       <input 
+//         value={job}
+//         ref={inputRef}
+//         autoFocus={true}
+//         placeholder="Enter job..."
+//         onChange={(e) => dispatch(actions.setJob(e.target.value))}
+//         onClick={() => {
+//           // Nếu có 1 job đang được update thì sẽ ẩn
+//           // thẻ update input và button SAVE của job đó đi
+//           if (updateIndex !== -1) {
+//             setUpdateIndex(-1);
+//           }
+//         }}
+//       />
 
-  const handleUpdateJob = ({index, newJob}) => {
-    if (newJob.trim().length > 0) {
-      dispatch(actions.updateJob({index, newJob}));
-    }
-  }
+//       <button
+//         onClick={() => {
+//           // Nếu có 1 job đang được update thì sẽ ẩn
+//           // thẻ update input và button SAVE của job đó đi
+//           if (updateIndex !== -1) {
+//             setUpdateIndex(-1);
+//           }
+//           handleAddJob(job);
+//         }}
+//       >
+//         ADD
+//       </button>
 
-  const handleDeleteJob = (index) => {
-    dispatch(actions.deleteJob(index));
-  }
+//       {jobs.map((job, index) => (
+//         <li key={index} style={{ margin: 10 }}>
+
+//           <span style={{ marginRight: 10 }}>
+//             {job}
+//           </span>
+//           <button onClick={() => {
+//             // Nếu click button UPDATE trên job đang được update thì sẽ ko được
+//             // Đồng thời ẩn thẻ update input và button SAVE đó đi
+//             if (updateIndex === index) {
+//               setUpdateIndex(-1);
+//             } else {
+//               setUpdateIndex(index);
+//             }
+//           }}>
+//             UPDATE
+//           </button>
+//           <button onClick={() => handleDeleteJob(index)}>
+//             DELETE
+//           </button>
+
+//           {/* Nếu click button UPDATE trên job hiện tại, thì sẽ có thêm thẻ update input và button SAVE */}
+//           {(updateIndex === index) && (
+//             <div>
+//               <input 
+//                 id="updateInput"
+//                 value={jobInUpdateInput}
+//                 autoFocus={true}
+//                 onChange={(e) => dispatch(actions.setJobInUpdateInput(e.target.value))}
+//               />
+//               <button onClick={() => {
+//                 const newJob = document.querySelector("#updateInput").value;
+//                 handleUpdateJob({index, newJob});
+//               }}>
+//                 SAVE
+//               </button>
+//             </div>
+//           )}
+//         </li>
+//       ))}
+//     </div>
+//   )
+// }
+
+// export default Content;
 
 
-  return (
-    <div>
-      <input 
-        ref={inputRef}
-        value={job}
-        placeholder="Enter job.."
-        onChange={(e) => dispatch(actions.setJob(e.target.value))}
-      />
+/* File index.js cùng cấp 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import { StoreProvider } from './store';
 
-      <button onClick={() => handleAddJob(job)}>
-        ADD
-      </button>
+ReactDOM.render(
+  <React.StrictMode>
+    <StoreProvider>
+      <App />
+    </StoreProvider>
+  </React.StrictMode>
+  , 
+  document.getElementById('root')
+)
+*/
+//#endregion
 
-      {jobs.map((job, index) => (
-        <li key={index}>
-          {(updateIndex === index) 
-            ? (<span 
-                ref={spanRef}
-                contentEditable={enableUpdate && (updateIndex === index)}
-                suppressContentEditableWarning={true}
-              >
-                {job}
-              </span>)
-            : (<span 
-                contentEditable={enableUpdate && (updateIndex === index)}
-                suppressContentEditableWarning={true}
-              >
-                {job}
-              </span>)
-          }
-          
-          <button 
-            style={{ marginLeft: 10 }}
-            onClick={() => {
-              setEnableUpdate(true);
-              setUpdateIndex(index);
-              // spanRef.current.click();
-            }}
-          >
-            update
-          </button>
+//#region
 
-          {enableUpdate && (updateIndex === index) && (
-            <button onClick={() => {
-              const newJob = spanRef.current.innerHTML;
-              handleUpdateJob({index, newJob});
-              setUpdateIndex();
-            }}>
-              save
-            </button>
-          )}
-
-          <button onClick={() => handleDeleteJob(index)}>
-            delete
-          </button>
-        </li>
-      ))}
-    </div>
-  )
-}
-
-export default Content;
 //#endregion
