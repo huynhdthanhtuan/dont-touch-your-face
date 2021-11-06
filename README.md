@@ -1,4 +1,4 @@
-PROJECT TIKTOK USING RAECTJS
+# PROJECT TIKTOK USING REACTJS
 
 # Getting Started with Create React App
 
