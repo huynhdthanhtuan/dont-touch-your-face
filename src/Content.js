@@ -634,8 +634,8 @@ export default React.memo(ContentChild);    */
 
 //#region Context + useContext + useReducer hook
 // import { useContext, useRef } from "react";
-// import { StoreContext } from "./store";
-// import { actions } from "./state";
+// import { StoreContext } from "./Todo/store";
+// import { actions } from "./Todo/state";
 
 // function Content() {
 //   const [state, dispatch] = useContext(StoreContext);
@@ -744,7 +744,7 @@ export default React.memo(ContentChild);    */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { StoreProvider } from './store';
+import { StoreProvider } from './Todo/store';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -752,8 +752,7 @@ ReactDOM.render(
       <App />
     </StoreProvider>
   </React.StrictMode>
-  , 
-  document.getElementById('root')
+  , document.getElementById('root')
 )
 */
 //#endregion
@@ -761,29 +760,29 @@ ReactDOM.render(
 //#region useImperativeHandle hook
 // -> Giúp tùy chỉnh ref của 1 function component
 
-import Video from "./video/Video";
-import { useRef } from "react";
+// import Video from "./video/Video";
+// import { useRef } from "react";
 
-function Content() {
-  // Sẽ tham chiếu đến và lấy DOM element của thẻ video trong component Video
-  const videoRef = useRef();
+// function Content() {
+//   // Sẽ tham chiếu đến và lấy DOM element của thẻ video trong component Video
+//   const videoRef = useRef();
 
-  // videoRef.current chứa những gì mà component Video dùng useImperative hook để trả ra
-  const handlePlayVideo = () => videoRef.current.play();
-  const handlePauseVideo = () => videoRef.current.pause();
+//   // videoRef.current chứa những gì mà component Video dùng useImperative hook để trả ra
+//   const handlePlayVideo = () => videoRef.current.play();
+//   const handlePauseVideo = () => videoRef.current.pause();
 
-  return (
-    <div>
-      {/* Mặc định thì function component ko có prog ref
-          Truyền videoRef cho prog ref của Video hòng lấy được dữ liệu trả ra */}
-      <Video ref={videoRef} />
-      <button onClick={handlePlayVideo}>PLAY</button>
-      <button onClick={handlePauseVideo}>PAUSE</button> 
-    </div>
-  )
-}
+//   return (
+//     <div>
+//       {/* Mặc định thì function component ko có prog ref
+//           Truyền videoRef cho prog ref của Video hòng lấy được dữ liệu trả ra */}
+//       <Video ref={videoRef} />
+//       <button onClick={handlePlayVideo}>PLAY</button>
+//       <button onClick={handlePauseVideo}>PAUSE</button> 
+//     </div>
+//   )
+// }
 
-export default Content;
+// export default Content;
 //#endregion
 
 
