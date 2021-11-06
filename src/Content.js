@@ -633,44 +633,57 @@ export default React.memo(ContentChild);    */
 //#endregion
 
 //#region Context + useContext + useReducer hook
-// import { useContext, useRef, useState } from "react";
+// import { useContext, useRef } from "react";
 // import { StoreContext } from "./store";
 // import { actions } from "./state";
 
 // function Content() {
 //   const [state, dispatch] = useContext(StoreContext);
-//   const { job, jobs, jobInUpdateInput } = state;
+//   const { job, jobs, jobInUpdateInput, updateIndex } = state;
 //   const inputRef = useRef();
-//   const [updateIndex, setUpdateIndex] = useState();
 
 //   const handleAddJob = (newJob) => {
+//     // Ẩn phần update job của job bất kì (nếu có) trước khi addJob
+//     if (updateIndex !== -1) {
+//       dispatch(actions.setUpdateIndex(-1));
+//     }
+    
 //     if (newJob.trim().length > 0) {
 //       dispatch(actions.addJob(newJob));
-//       // cleanup input
 //       dispatch(actions.setJob(""));
-//       // autofocus after add
 //       inputRef.current.focus();
-
-//       // khi addJob xong thì hiện tại sẽ không thể có job nào 
-//       // đang được update nên set lại updateIndex = -1 (index ko hợp lệ)
-//       setUpdateIndex(-1);
 //     }
 //   }
 //   const handleUpdateJob = ({index, newJob}) => {
 //     if (newJob.trim().length > 0) {
 //       dispatch(actions.updateJob({index, newJob}));
 
-//       // khi updateJob xong thì hiện tại sẽ không thể có job nào 
-//       // đang được update nữa nên set lại updateIndex = -1 (index ko hợp lệ)
-//       setUpdateIndex(-1);
+//       // khi updateJob xong thì hiện tại sẽ không thể có job nào 'đang được update'
+//       dispatch(actions.setUpdateIndex(-1));
 //     }
 //   }
 //   const handleDeleteJob = (index) => {
 //     dispatch(actions.deleteJob(index));
     
-//     // khi deleteJob xong thì hiện tại sẽ không thể có job nào 
-//     // đang được update nên set lại updateIndex = -1 (index ko hợp lệ)
-//     setUpdateIndex(-1);
+//     // khi deleteJob xong thì hiện tại sẽ không thể có job nào 'đang được update'
+//     dispatch(actions.setUpdateIndex(-1));
+//   }
+
+//   const handleClickInput = () => {
+//     // Ẩn phần update job của job bất kì (nếu có)
+//     if (updateIndex !== -1) {
+//       dispatch(actions.setUpdateIndex(-1));
+//     }
+//   }
+//   const handleClickUpdate = (index) => {
+//     // Toggle ẩn hiện phần update job khi liên tục click vào button UPDATE của job đó
+//     if (updateIndex === index) {
+//       dispatch(actions.setUpdateIndex(-1));
+//     }
+//     // Ẩn phần update job của job bất kì (nếu có) và hiển thị phần update job của job mới
+//     else {
+//       dispatch(actions.setUpdateIndex(index));
+//     }
 //   }
 
 //   return (
@@ -681,25 +694,10 @@ export default React.memo(ContentChild);    */
 //         autoFocus={true}
 //         placeholder="Enter job..."
 //         onChange={(e) => dispatch(actions.setJob(e.target.value))}
-//         onClick={() => {
-//           // Nếu có 1 job đang được update thì sẽ ẩn
-//           // thẻ update input và button SAVE của job đó đi
-//           if (updateIndex !== -1) {
-//             setUpdateIndex(-1);
-//           }
-//         }}
+//         onClick={() => handleClickInput()}
 //       />
 
-//       <button
-//         onClick={() => {
-//           // Nếu có 1 job đang được update thì sẽ ẩn
-//           // thẻ update input và button SAVE của job đó đi
-//           if (updateIndex !== -1) {
-//             setUpdateIndex(-1);
-//           }
-//           handleAddJob(job);
-//         }}
-//       >
+//       <button onClick={() => handleAddJob(job)}>
 //         ADD
 //       </button>
 
@@ -709,22 +707,14 @@ export default React.memo(ContentChild);    */
 //           <span style={{ marginRight: 10 }}>
 //             {job}
 //           </span>
-//           <button onClick={() => {
-//             // Nếu click button UPDATE trên job đang được update thì sẽ ko được
-//             // Đồng thời ẩn thẻ update input và button SAVE đó đi
-//             if (updateIndex === index) {
-//               setUpdateIndex(-1);
-//             } else {
-//               setUpdateIndex(index);
-//             }
-//           }}>
+//           <button onClick={() => handleClickUpdate(index)}>
 //             UPDATE
 //           </button>
 //           <button onClick={() => handleDeleteJob(index)}>
 //             DELETE
 //           </button>
 
-//           {/* Nếu click button UPDATE trên job hiện tại, thì sẽ có thêm thẻ update input và button SAVE */}
+//           {/* Hiển thị phần update job của job hiện tại (nếu có) */}
 //           {(updateIndex === index) && (
 //             <div>
 //               <input 
@@ -768,6 +758,32 @@ ReactDOM.render(
 */
 //#endregion
 
-//#region
+//#region useImperativeHandle hook
+// -> Giúp tùy chỉnh ref của 1 function component
 
+import Video from "./video/Video";
+import { useRef } from "react";
+
+function Content() {
+  // Sẽ tham chiếu đến và lấy DOM element của thẻ video trong component Video
+  const videoRef = useRef();
+
+  // videoRef.current chứa những gì mà component Video dùng useImperative hook để trả ra
+  const handlePlayVideo = () => videoRef.current.play();
+  const handlePauseVideo = () => videoRef.current.pause();
+
+  return (
+    <div>
+      {/* Mặc định thì function component ko có prog ref
+          Truyền videoRef cho prog ref của Video hòng lấy được dữ liệu trả ra */}
+      <Video ref={videoRef} />
+      <button onClick={handlePlayVideo}>PLAY</button>
+      <button onClick={handlePauseVideo}>PAUSE</button> 
+    </div>
+  )
+}
+
+export default Content;
 //#endregion
+
+

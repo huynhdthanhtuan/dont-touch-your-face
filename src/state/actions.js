@@ -24,3 +24,8 @@ export const deleteJob = (payload) => ({
     type: constants.DELETE_JOB,
     payload: payload
 })
+
+export const setUpdateIndex = (payload) => ({
+    type: constants.SET_UPDATE_INDEX,
+    payload: payload
+})

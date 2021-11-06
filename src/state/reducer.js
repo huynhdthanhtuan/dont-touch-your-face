@@ -3,7 +3,8 @@ import { constants } from "./index";
 const initState = {
     job: '',
     jobs: [],
-    jobInUpdateInput: ''
+    jobInUpdateInput: '',
+    updateIndex: -1
 }
 
 function reducer (state, action) {
@@ -44,6 +45,12 @@ function reducer (state, action) {
             return {
                 ...state,
                 jobs: newJobs
+            }
+        }
+        case constants.SET_UPDATE_INDEX: {
+            return {
+                ...state,
+                updateIndex: action.payload
             }
         }
         default:
