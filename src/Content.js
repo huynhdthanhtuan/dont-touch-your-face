@@ -759,27 +759,27 @@ ReactDOM.render(
 
 //#region useImperativeHandle hook
 // -> Giúp tùy chỉnh ref của 1 function component
-
 // import Video from "./video/Video";
 // import { useRef } from "react";
 
 // function Content() {
-//   // Sẽ tham chiếu đến và lấy DOM element của thẻ video trong component Video
+//   // Sẽ tham chiếu đến giá trị mà callback của useImperative trong component Video return
 //   const videoRef = useRef();
 
-//   // videoRef.current chứa những gì mà component Video dùng useImperative hook để trả ra
+//   // videoRef.current sẽ lưu những giá trị đó
 //   const handlePlayVideo = () => videoRef.current.play();
 //   const handlePauseVideo = () => videoRef.current.pause();
 
 //   return (
 //     <div>
-//       {/* Mặc định thì function component ko có prog ref
-//           Truyền videoRef cho prog ref của Video hòng lấy được dữ liệu trả ra */}
+//       {/* Mặc định thì function component ko có prog ref nhưng nhờ HOC forwardRef
+//       sẽ giúp component con nhận được prog ref từ component cha */}
+//       {/* Truyền videoRef cho prog ref của component Video hòng lấy được dữ liệu trả ra */}
 //       <Video ref={videoRef} />
 //       <button onClick={handlePlayVideo}>PLAY</button>
-//       <button onClick={handlePauseVideo}>PAUSE</button> 
+//       <button onClick={handlePauseVideo}>PAUSE</button>
 //     </div>
-//   )
+//   );
 // }
 
 // export default Content;
