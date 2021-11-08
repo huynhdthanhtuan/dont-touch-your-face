@@ -785,4 +785,10 @@ ReactDOM.render(
 // export default Content;
 //#endregion
 
+function Content() {
+  return (
+    <h1>HELLO ANH EM</h1>
+  )
+}
 
+export default Content;
