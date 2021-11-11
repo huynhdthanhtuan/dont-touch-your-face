@@ -1,4 +1,3 @@
-
 //#region useEffect: DOM events, cleanup function
 // import { useEffect, useState } from "react";
 
@@ -12,7 +11,6 @@
 //   const [showGoToTop, setShowGoToTop] = useState(false);
 //   const [widthSize, setWidthSize] = useState(window.innerWidth);
 
-
 //   useEffect(() => {
 
 //     fetch(`https://jsonplaceholder.typicode.com/${type}`)
@@ -20,7 +18,6 @@
 //       .then((datas) => setInfos(datas));
 
 //   }, [type]);
-
 
 //   useEffect(() => {
 //     const handleScroll = () => {
@@ -34,7 +31,6 @@
 //     }
 //   }, [showGoToTop]);
 
-
 //   useEffect(() => {
 //     const handleResize = () => {
 //       setWidthSize(window.innerWidth);
@@ -45,7 +41,6 @@
 //       window.removeEventListener("resize", handleResize);
 //     }
 //   }, [])
-
 
 //   return (
 //     <div style={{ marginLeft: 100, marginTop: 50 }}>
@@ -103,7 +98,7 @@
 //#region useEffect: timer function (create, clear)
 // import { useState } from 'react';
 
-// function Content() {  
+// function Content() {
 
 //   const [timerIds, setTimerIds] = useState([]);
 
@@ -206,7 +201,6 @@
 //     }
 //   ];
 
-
 //   const handleComment = (e) => console.log(e.detail)
 
 //   useEffect(() => {
@@ -218,7 +212,6 @@
 //     }
 //   }, [groupId])
 
-
 //   return (
 //     <div>
 //       {
@@ -226,8 +219,8 @@
 //           <button
 //             key={chatGroup.id}
 //             style={
-//               (groupId === chatGroup.id)  
-//                 ? { 
+//               (groupId === chatGroup.id)
+//                 ? {
 //                   marginLeft: 10,
 //                   backgroundColor: "#000",
 //                   color: "#fff"
@@ -266,7 +259,7 @@ makeComment(3, "Nhóm chat tiếng Anh");
 
 //#endregion
 
-//#region useRef: 
+//#region useRef:
 // -> Lưu trữ giá trị trước đó bằng 1 tham chiếu đưa ra bên ngoài Component
 // import { useState, useRef } from 'react';
 
@@ -288,7 +281,7 @@ makeComment(3, "Nhóm chat tiếng Anh");
 //                 // -> countRef2.curent sẽ là DOM event của button
 //                 ref={countRef2}
 //             >
-//                 Curr: {count} - 
+//                 Curr: {count} -
 //                 Prev: {countRef1.current}
 //             </button>
 
@@ -308,7 +301,7 @@ makeComment(3, "Nhóm chat tiếng Anh");
 // import React from 'react';
 // import ContentChild from './ContentChild';
 
-// function Content() {  
+// function Content() {
 
 //   const [id, setId] = React.useState();
 //   const [value, setValue] = React.useState(1);
@@ -336,7 +329,7 @@ makeComment(3, "Nhóm chat tiếng Anh");
 // export default Content;
 //#endregion
 
-//#region useCallback: 
+//#region useCallback:
 // // Tránh tạo ra hàm mới không cần thiết
 // // Tránh Component re-render do tạo ra hàm mới không cần thiết
 
@@ -353,7 +346,7 @@ makeComment(3, "Nhóm chat tiếng Anh");
 //     return (
 //         <div>
 //             <h1> Value: {count} </h1>
-//             <ContentChild 
+//             <ContentChild
 //                 onIncrease={handleIncrease}
 //             />
 //         </div>
@@ -361,7 +354,6 @@ makeComment(3, "Nhóm chat tiếng Anh");
 // }
 
 // export default Content;
-
 
 /*  File ContentChild cùng cấp 
 
@@ -394,7 +386,7 @@ export default React.memo(ContentChild);    */
 //     const handleAddProduct = (nameInputValue, priceInputValue) => {
 //         // string.trim(): loại bỏ tất cả khoảng trắng ở đầu và cuối chuỗi
 
-//         if (nameInputValue.trim() !== '' 
+//         if (nameInputValue.trim() !== ''
 //             && priceInputValue.trim() !== ''
 //             && Number(priceInputValue.trim()) > 0) {
 
@@ -416,7 +408,6 @@ export default React.memo(ContentChild);    */
 //     const totalPrice = useMemo(() => {
 //         return products.reduce((acc, product) => acc + product.price, 0);
 //     }, [products])
-
 
 //     return (
 //         <div>
@@ -473,9 +464,9 @@ export default React.memo(ContentChild);    */
 // // 3. Reducer
 // const reducer = (state, action) => {
 //     switch(action) {
-//         case UP_ACTION: 
+//         case UP_ACTION:
 //             return (state + 1);
-//         case DOWN_ACTION: 
+//         case DOWN_ACTION:
 //             return (state - 1);
 //         case REFRESH_ACTION:
 //             return initialCount;
@@ -506,7 +497,7 @@ export default React.memo(ContentChild);    */
 // export default Content;
 //#endregion
 
-// //#region Todo app (specific implementation)
+//#region Todo app (specific implementation)
 // import { useReducer, useRef } from "react";
 
 // // 1. Init state
@@ -584,7 +575,7 @@ export default React.memo(ContentChild);    */
 
 //     return (
 //         <div>
-//             <input 
+//             <input
 //                 ref={inputRef}
 //                 value={job}
 //                 placeholder="Job"
@@ -597,7 +588,7 @@ export default React.memo(ContentChild);    */
 //             {jobs.map((job, index) => (
 //                 <li key={index}>
 //                     {job}
-//                     <span 
+//                     <span
 //                         onClick={() => dispatch(deleteJob(index))}
 //                         style={{ cursor: 'default' }}
 //                     >
@@ -610,13 +601,13 @@ export default React.memo(ContentChild);    */
 // }
 
 // export default Content;
-// //#endregion
+//#endregion
 
 //#region Todo app (modularization)
-// import TodoApp from "./TodoApp/index";
+// import TodoApp from "../TodoApp/index.js";
 
-// function Content () {
-//     return <TodoApp />;
+// function Content() {
+//   return <TodoApp />;
 // }
 
 // export default Content;
@@ -634,8 +625,8 @@ export default React.memo(ContentChild);    */
 
 //#region Context + useContext + useReducer hook
 // import { useContext, useRef } from "react";
-// import { StoreContext } from "./Todo/store";
-// import { actions } from "./Todo/state";
+// import { StoreContext } from "../Todo/store/index.js";
+// import { actions } from "../Todo/state/index.js";
 
 // function Content() {
 //   const [state, dispatch] = useContext(StoreContext);
@@ -647,34 +638,34 @@ export default React.memo(ContentChild);    */
 //     if (updateIndex !== -1) {
 //       dispatch(actions.setUpdateIndex(-1));
 //     }
-    
+
 //     if (newJob.trim().length > 0) {
 //       dispatch(actions.addJob(newJob));
 //       dispatch(actions.setJob(""));
 //       inputRef.current.focus();
 //     }
-//   }
-//   const handleUpdateJob = ({index, newJob}) => {
+//   };
+//   const handleUpdateJob = ({ index, newJob }) => {
 //     if (newJob.trim().length > 0) {
-//       dispatch(actions.updateJob({index, newJob}));
+//       dispatch(actions.updateJob({ index, newJob }));
 
 //       // khi updateJob xong thì hiện tại sẽ không thể có job nào 'đang được update'
 //       dispatch(actions.setUpdateIndex(-1));
 //     }
-//   }
+//   };
 //   const handleDeleteJob = (index) => {
 //     dispatch(actions.deleteJob(index));
-    
+
 //     // khi deleteJob xong thì hiện tại sẽ không thể có job nào 'đang được update'
 //     dispatch(actions.setUpdateIndex(-1));
-//   }
+//   };
 
 //   const handleClickInput = () => {
 //     // Ẩn phần update job của job bất kì (nếu có)
 //     if (updateIndex !== -1) {
 //       dispatch(actions.setUpdateIndex(-1));
 //     }
-//   }
+//   };
 //   const handleClickUpdate = (index) => {
 //     // Toggle ẩn hiện phần update job khi liên tục click vào button UPDATE của job đó
 //     if (updateIndex === index) {
@@ -684,11 +675,11 @@ export default React.memo(ContentChild);    */
 //     else {
 //       dispatch(actions.setUpdateIndex(index));
 //     }
-//   }
+//   };
 
 //   return (
 //     <div>
-//       <input 
+//       <input
 //         value={job}
 //         ref={inputRef}
 //         autoFocus={true}
@@ -697,36 +688,31 @@ export default React.memo(ContentChild);    */
 //         onClick={() => handleClickInput()}
 //       />
 
-//       <button onClick={() => handleAddJob(job)}>
-//         ADD
-//       </button>
+//       <button onClick={() => handleAddJob(job)}>ADD</button>
 
 //       {jobs.map((job, index) => (
 //         <li key={index} style={{ margin: 10 }}>
-
-//           <span style={{ marginRight: 10 }}>
-//             {job}
-//           </span>
-//           <button onClick={() => handleClickUpdate(index)}>
-//             UPDATE
-//           </button>
-//           <button onClick={() => handleDeleteJob(index)}>
-//             DELETE
-//           </button>
+//           <span style={{ marginRight: 10 }}>{job}</span>
+//           <button onClick={() => handleClickUpdate(index)}>UPDATE</button>
+//           <button onClick={() => handleDeleteJob(index)}>DELETE</button>
 
 //           {/* Hiển thị phần update job của job hiện tại (nếu có) */}
-//           {(updateIndex === index) && (
+//           {updateIndex === index && (
 //             <div>
-//               <input 
+//               <input
 //                 id="updateInput"
 //                 value={jobInUpdateInput}
 //                 autoFocus={true}
-//                 onChange={(e) => dispatch(actions.setJobInUpdateInput(e.target.value))}
+//                 onChange={(e) =>
+//                   dispatch(actions.setJobInUpdateInput(e.target.value))
+//                 }
 //               />
-//               <button onClick={() => {
-//                 const newJob = document.querySelector("#updateInput").value;
-//                 handleUpdateJob({index, newJob});
-//               }}>
+//               <button
+//                 onClick={() => {
+//                   const newJob = document.querySelector("#updateInput").value;
+//                   handleUpdateJob({ index, newJob });
+//                 }}
+//               >
 //                 SAVE
 //               </button>
 //             </div>
@@ -734,32 +720,32 @@ export default React.memo(ContentChild);    */
 //         </li>
 //       ))}
 //     </div>
-//   )
+//   );
 // }
 
 // export default Content;
 
-
-/* File index.js cùng cấp 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { StoreProvider } from './Todo/store';
+/* File src/index.js
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { StoreProvider } from "./components/Todo/store";
 
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
       <App />
     </StoreProvider>
-  </React.StrictMode>
-  , document.getElementById('root')
-)
+  </React.StrictMode>,
+  document.getElementById("root")
+);    
 */
 //#endregion
 
 //#region useImperativeHandle hook
 // -> Giúp tùy chỉnh ref của 1 function component
-// import Video from "./video/Video";
+
+// import Video from "../Video";
 // import { useRef } from "react";
 
 // function Content() {
@@ -785,10 +771,15 @@ ReactDOM.render(
 // export default Content;
 //#endregion
 
-function Content() {
-  return (
-    <h1>HELLO ANH EM</h1>
-  )
-}
+// Bản chất trước đó của file này là component Content (src/Content)
+// Nhưng bắt đầu từ giờ nó sẽ là file src/components/Content/index.jsx
 
-export default Content;
+//#region CSS in ReactJS project
+// import HelloHeading from "../HelloHeading";
+
+// function Content() {
+//   return <HelloHeading />;
+// }
+
+// export default Content;
+//#endregion

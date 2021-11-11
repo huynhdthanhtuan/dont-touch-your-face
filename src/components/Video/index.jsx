@@ -11,7 +11,7 @@ function Video(progs, ref) {
     },
     pause: function () {
       videoRef.current.pause();
-    }
+    },
   }));
 
   return (
