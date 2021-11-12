@@ -771,15 +771,12 @@ ReactDOM.render(
 // export default Content;
 //#endregion
 
-// Bản chất trước đó của file này là component Content (src/Content)
-// Nhưng bắt đầu từ giờ nó sẽ là file src/components/Content/index.jsx
+//#region CSS in ReactJS project: CSS module
+import HelloHeading from "../HelloHeading";
 
-//#region CSS in ReactJS project
-// import HelloHeading from "../HelloHeading";
+function Content() {
+  return <HelloHeading />;
+}
 
-// function Content() {
-//   return <HelloHeading />;
-// }
-
-// export default Content;
+export default Content;
 //#endregion

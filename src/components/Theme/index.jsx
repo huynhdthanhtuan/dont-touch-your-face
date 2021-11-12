@@ -14,12 +14,12 @@ export default Theme;
 
 /* File src/index.js
 
-import ReactDOM from 'react-dom';
-import Theme from './components/Theme/index.jsx';
+import ReactDOM from "react-dom";
+import Theme from "./components/Theme/index.jsx";
 
 ReactDOM.render(
-  <Theme />,
-  document.getElementById('root')
+  <Theme />, 
+  document.getElementById("root")
 );
 
 */
