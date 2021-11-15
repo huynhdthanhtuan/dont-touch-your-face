@@ -775,7 +775,12 @@ ReactDOM.render(
 import HelloHeading from "../HelloHeading";
 
 function Content() {
-  return <HelloHeading />;
+  return (
+    <>
+      <HelloHeading redBackground />
+      <HelloHeading yellowBackground />
+    </>
+  );
 }
 
 export default Content;

@@ -5,3 +5,11 @@
 .displayFlex {
   display: flex;
 }
+
+.redBackground {
+  background-color: red;
+}
+
+.yellowBackground {
+  background-color: yellow;
+}
