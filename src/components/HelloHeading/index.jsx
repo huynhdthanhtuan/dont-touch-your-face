@@ -1,19 +1,19 @@
 import React from "react";
 import clsx from "clsx";
-import styles from "./HelloHeading.module.css";
+import styles from "./HelloHeading.module.scss";
 
 // Nhận các prog boolean từ component cha
 function HelloHeading(progs) {
   
   // Xử lí ẩn/hiện class tương ứng từ giá trị boolean của prog tương ứng
-  const classes = clsx({
+  const classes = clsx(styles.btn, {
     [styles.redBackground]: progs.redBackground,
     [styles.yellowBackground]: progs.yellowBackground,
   });
 
   return (
     <React.Fragment>
-      <div className={classes}>COLOR</div>
+      <button className={classes}>Color</button>
 
       {/* <h1
         // clsx nhận nhiều đối số -> 1 chuỗi ở định dạng class
