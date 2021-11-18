@@ -772,13 +772,44 @@ ReactDOM.render(
 //#endregion
 
 //#region CSS in ReactJS project: CSS module
-import HelloHeading from "../HelloHeading";
+// import HelloHeading from "../HelloHeading";
+
+// function Content() {
+//   return (
+//     <>
+//       <HelloHeading redBackground />
+//       <HelloHeading yellowBackground />
+//     </>
+//   );
+// }
+
+// export default Content;
+//#endregion
+
+//#region React Router
+// -> Giúp tạo cơ chế định tuyến cho ứng dụng sử dụng React
+// -> Component Link khi render vào DOM => thẻ a
+
+import { Routes, Route, Link } from "react-router-dom";
+import HomePage from "../Pages/Home";
+import LoginPage from "../Pages/Login";
+import RegisterPage from "../Pages/Register";
+import styles from "./Content.module.css";
 
 function Content() {
   return (
     <>
-      <HelloHeading redBackground />
-      <HelloHeading yellowBackground />
+      <div className={styles.divTag}>
+        <Link to="/">Home page</Link>
+        <Link to="/login">Login page</Link>
+        <Link to="/register">Register page</Link>
+      </div>
+
+      <Routes>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/register" element={<RegisterPage />}></Route>
+      </Routes>
     </>
   );
 }
