@@ -1,22 +1,21 @@
-import "./App.css";
 import { useEffect, useRef } from "react";
 import * as mobilenet from "@tensorflow-models/mobilenet";
 import * as knnClassifier from "@tensorflow-models/knn-classifier";
 import { Howl } from "howler";
+import "./App.css";
 
-// var sound = new Howl({
-//   src: ["assests/audio/back.mp3"],
-// });
-// sound.play();
+var sound = new Howl({
+  src: ["assests/audio/back.mp3"],
+});
 
 function App() {
   const videoRef = useRef();
 
   const init = async () => {
-    await setupCamera();
+    await turnOnCamera();
   };
 
-  const setupCamera = () => {
+  const turnOnCamera = () => {
     return new Promise((resolve, reject) => {
       navigator.getUserMedia =
         navigator.getUserMedia ||
@@ -58,7 +57,6 @@ function App() {
           { video: "false" },
           (stream) => {
             videoRef.current.srcObject = null;
-            videoRef.current.addEventListener("loadeddata", resolve);
           },
           (error) => {
             reject(error);
@@ -70,21 +68,19 @@ function App() {
     });
   };
 
+  const playSound = () => {
+    sound.play();
+  };
+
   // useEffect(() => {
   //   init();
   // }, []);
 
   return (
     <div className="main">
-      <h4 className="title">DON'T TOUCH YOUR FACE</h4>
+      <h3 className="title">DON'T TOUCH YOUR FACE</h3>
 
-      <video
-        src=""
-        ref={videoRef}
-        width="700px"
-        height="480px"
-        autoPlay
-      ></video>
+      <video ref={videoRef} width="700px" height="480px" autoPlay />
 
       <div className="control">
         <button className="btn btn-control" onClick={init}>
@@ -93,7 +89,9 @@ function App() {
         <button className="btn btn-control" onClick={stop}>
           OFF
         </button>
-        <button className="btn btn-control">Run</button>
+        <button className="btn btn-control" onClick={playSound}>
+          WARNING
+        </button>
       </div>
     </div>
   );
