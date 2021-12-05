@@ -1,3 +1,7 @@
+# Ứng dụng "Đừng chạm tay lên mặt"
+
+## Công nghệ: ReactJS, TensflowJS
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
