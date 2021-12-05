@@ -1,8 +1,8 @@
 import "./App.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Howl } from "howler";
-import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-backend-cpu";
+import * as tf from "@tensorflow/tfjs";
 import * as mobilenet from "@tensorflow-models/mobilenet";
 import * as knnClassifier from "@tensorflow-models/knn-classifier";
 
@@ -11,13 +11,16 @@ const TOUCHED_LABEL = "TOUCHED";
 const TRAINING_TIMES = 50;
 
 const sound = new Howl({
-  src: ["assests/audio/back.mp3"],
+  src: ["assests/audio/botayxuong.mp3"],
 });
 
 function App() {
   const videoRef = useRef();
   const mobilenetModel = useRef();
   const classifierModel = useRef();
+  const [isEnabled, setIsEnabled] = useState(true);
+  const [isEnabledTrain2, setIsEnabledTrain2] = useState(true);
+  const [isEnabledRun, setIsEnabledRun] = useState(true);
 
   const init = async () => {
     console.log("Init...");
@@ -30,6 +33,7 @@ function App() {
     classifierModel.current = knnClassifier.create();
 
     console.log("Setup done, click Train 1 and Train 2...");
+    setIsEnabled(false);
   };
 
   const turnOnCamera = () => {
@@ -66,13 +70,22 @@ function App() {
       );
       await training(label);
     }
+
+    // Train 1 xong -> enabled button Train2
+    if (label === DONT_TOUCH_LABEL) {
+      setIsEnabledTrain2(false);
+    }
+    // Train 2 xong -> enabled button Run
+    else {
+      setIsEnabledRun(false);
+    }
   };
 
   const training = (label) => {
     return new Promise(async (resolve) => {
-      // train ảnh
+      // train luồng ảnh hiện tại
       const embedding = mobilenetModel.current.infer(videoRef.current, true);
-      // máy học
+      // máy học luồng ảnh hiện tại
       classifierModel.current.addExample(embedding, label);
 
       await sleep(100);
@@ -80,10 +93,27 @@ function App() {
     });
   };
 
+  const run = async () => {
+    // train luồng ảnh hiện tại
+    const embedding = mobilenetModel.current.infer(videoRef.current, true);
+
+    // so sánh luồng ảnh hiện tại với dữ liệu đã train trước đó
+    const result = await classifierModel.current.predictClass(embedding);
+
+    if (
+      result.label === TOUCHED_LABEL &&
+      result.confidences[TOUCHED_LABEL] === 1
+    ) {
+      sound.play();
+    } else {
+    }
+
+    await sleep(200);
+    run();
+  };
+
   const sleep = (milisec) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, milisec);
-    });
+    return new Promise((resolve) => setTimeout(resolve, milisec));
   };
 
   useEffect(() => {
@@ -92,24 +122,30 @@ function App() {
 
   return (
     <div className="main">
-      <h3 className="title">DON'T TOUCH YOUR FACE</h3>
+      <h4 className="title">DON'T TOUCH YOUR FACE</h4>
 
-      <video ref={videoRef} width="700px" height="480px" autoPlay />
+      <video ref={videoRef} width="700px" height="500px" autoPlay />
 
       <div className="control">
         <button
-          className="btn btn-control"
+          disabled={isEnabled}
+          className="btn btn-primary btn-control"
           onClick={() => train(DONT_TOUCH_LABEL)}
         >
           TRAIN 1
         </button>
         <button
-          className="btn btn-control"
+          disabled={isEnabledTrain2}
+          className="btn btn-primary btn-control"
           onClick={() => train(TOUCHED_LABEL)}
         >
           TRAIN 2
         </button>
-        <button className="btn btn-control" onClick={() => {}}>
+        <button
+          disabled={isEnabledRun}
+          className="btn btn-success btn-control"
+          onClick={() => run()}
+        >
           RUN
         </button>
       </div>
