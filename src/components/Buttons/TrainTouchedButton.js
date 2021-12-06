@@ -8,7 +8,9 @@ function TrainTouchedButton({ onClick, progessPercent }) {
     <>
       {!isButtonClicked ? (
         <div>
-          <h5 className="mt-2">Bước 2: Quay video đưa tay gần lên mặt!</h5>
+          <h5 className="mt-2 guide-text">
+            Bước 2: Quay video đưa tay gần lên mặt!
+          </h5>
           <button
             className="btn btn-primary btn-control"
             onClick={() => {
@@ -20,7 +22,7 @@ function TrainTouchedButton({ onClick, progessPercent }) {
           </button>
         </div>
       ) : (
-        <h5 className="mt-2">
+        <h5 className="mt-2 guide-text">
           Giữ tay luôn trong tầm nhìn của camera cho đến khi hoàn thành.
           <br />
           Máy đang học {progessPercent}%

@@ -7,7 +7,7 @@ function RunButton({ onClick }) {
     <>
       {!isButtonClicked ? (
         <div>
-          <h5 className="mt-2">
+          <h5 className="mt-2 guide-text">
             Bước 3: Máy AI đã sẵn sàng, hãy bấm Khởi động!
           </h5>
           <button
@@ -21,7 +21,9 @@ function RunButton({ onClick }) {
           </button>
         </div>
       ) : (
-        <h5 className="mt-2">Máy AI đang theo dõi cử chỉ tay của bạn...</h5>
+        <h5 className="mt-2 guide-text">
+          Máy AI đang theo dõi cử chỉ tay của bạn...
+        </h5>
       )}
     </>
   );
