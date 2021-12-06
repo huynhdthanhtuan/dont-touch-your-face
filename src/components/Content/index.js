@@ -89,6 +89,7 @@ function Content() {
     return new Promise(async (resolve) => {
       // Train luồng ảnh hiện tại
       const embedding = mobilenetModel.current.infer(videoRef.current, true);
+
       // Máy học luồng ảnh hiện tại
       classifierModel.current.addExample(embedding, label);
 
