@@ -27,49 +27,56 @@ function Content() {
   const [isEnabledRun, setIsEnabledRun] = useState(false);
 
   const init = async () => {
-    console.log("Init...");
-    await turnOnCamera();
-    console.log("Setup camera done...");
+    console.log("Khởi chạy ứng dụng...");
+    await setupCamera();
+    console.log("Thiết lập camera thành công...");
 
+    // Dùng thư viện
     mobilenetModel.current = await mobilenet.load();
     classifierModel.current = knnClassifier.create();
 
-    console.log("Setup all done...");
+    console.log("Ứng dụng đã sẵn sàng...");
     setIsReady(true);
     setIsEnabledTrainDontTouch(true);
   };
 
-  const turnOnCamera = () => {
-    return new Promise((resolve, reject) => {
-      navigator.getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mzGetUserMedia ||
-        navigator.msGetUserMedia;
+  const setupCamera = () => {
+    return new Promise(async (resolve, reject) => {
+      // Lấy ra đối tượng getUserMedia
+      const getUserMedia =
+        navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-      if (navigator.getUserMedia) {
-        navigator.getUserMedia(
-          { video: "true" },
-          (stream) => {
-            videoRef.current.srcObject = stream;
-            videoRef.current.addEventListener("loadeddata", resolve);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
+      if (getUserMedia) {
+        // Yêu cầu của luồng video
+        const constraints = { video: { facingMode: "user" } };
+
+        // Lấy ra luồng video của thiết bị
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+        // Thêm luồng video vào thuộc tính src của thẻ video
+        videoRef.current.srcObject = stream;
+
+        // Kích hoạt khi thẻ video tải xong luồng video trên
+        videoRef.current.addEventListener("loadeddata", resolve);
+
+        resolve();
       } else {
-        reject();
+        reject(
+          new Error("getUserMedia không được hỗ trợ trong trình duyệt này!!")
+        );
       }
     });
   };
 
   const train = async (label) => {
-    // Set về giá trị mặc định
+    // Set về giá trị mặc định (0%)
     setProgessPercent(0);
 
     for (let i = 0; i < TRAINING_TIMES; i++) {
+      // setState để chạy tiến độ
       setProgessPercent(parseInt(((i + 1) / TRAINING_TIMES) * 100));
+
+      // training
       await training(label);
     }
 
@@ -112,11 +119,13 @@ function Content() {
     ) {
       setIsTouched(true);
 
+      // Phát ra âm thanh cảnh báo
       if (canPlaySound.current) {
         canPlaySound.current = false;
         sound.play();
       }
 
+      // Show cảnh báo
       showNotification();
     } else {
       setIsTouched(false);
@@ -137,10 +146,10 @@ function Content() {
   useEffect(() => {
     init();
 
-    // Request after 3 seconds
+    // Khởi tạo thông báo
     initNotifications({ cooldown: 3000 });
 
-    // Fires when the sound finishes playing
+    // Kích hoạt khi âm thanh được phát xong
     sound.on("end", () => {
       canPlaySound.current = true;
     });
