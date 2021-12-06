@@ -8,7 +8,7 @@ function RunButton({ onClick }) {
       {!isButtonClicked ? (
         <div>
           <h5 className="mt-2 guide-text">
-            Bước 3: Máy AI đã sẵn sàng, hãy bấm Khởi động!
+            Bước 3: Máy AI đã sẵn sàng, bấm Khởi động!
           </h5>
           <button
             className="btn btn-success btn-control"

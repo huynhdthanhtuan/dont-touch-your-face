@@ -23,7 +23,7 @@ function TrainDontTouchButton({ onClick, progessPercent }) {
         </div>
       ) : (
         <h5 className="mt-2 guide-text">
-          Không chạm tay lên mặt cho đến khi hoàn thành.
+          Không đưa tay lên mặt cho đến khi hoàn thành!
           <br />
           Máy đang học {progessPercent}%
         </h5>

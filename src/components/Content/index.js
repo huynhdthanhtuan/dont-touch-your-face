@@ -1,5 +1,4 @@
 import "./Content.css";
-import "./responsive.css";
 import sound from "./sound";
 import TrainDontTouchButton from "../Buttons/TrainDontTouchButton";
 import TrainTouchedButton from "../Buttons/TrainTouchedButton";
@@ -152,13 +151,7 @@ function Content() {
       <div className="main">
         <h5 className="title mt-2">Ứng dụng "Đừng chạm tay lên mặt"</h5>
 
-        <video
-          ref={videoRef}
-          className="videoElement"
-          width="700px"
-          height="470px"
-          autoPlay
-        />
+        <video ref={videoRef} className="videoElement" autoPlay />
 
         <div className="control">
           {isReady ? (

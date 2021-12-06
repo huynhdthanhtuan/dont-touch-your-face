@@ -13,3 +13,40 @@
 .control {
   text-align: center;
 }
+
+.videoElement {
+  width: 700px;
+  height: 470px;
+}
+
+.btn-control {
+  width: 120px;
+}
+
+/* Responsive */
+/* Mobile: width < 740px */
+@media only screen and (max-width: 739px) {
+  .main {
+    width: 100%;
+  }
+
+  .title {
+    margin-bottom: -10px;
+  }
+
+  .videoElement {
+    width: calc(100% - 20px);
+    height: 70%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .guide-text {
+    font-size: 17px;
+    margin: 0 1px 11px 1px;
+  }
+
+  .btn-control {
+    height: 46px;
+  }
+}
