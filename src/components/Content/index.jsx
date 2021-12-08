@@ -1,12 +1,16 @@
 import "./Content.css";
-import sound from "./sound";
+import sound from "./sound.js";
 import TrainDontTouchButton from "../Buttons/TrainDontTouchButton";
 import TrainTouchedButton from "../Buttons/TrainTouchedButton";
 import RunButton from "../Buttons/RunButton";
 
 import { useEffect, useRef, useState } from "react";
 import { initNotifications, notify } from "@mycv/f8-notification";
-import { DONT_TOUCH_LABEL, TOUCHED_LABEL, TRAINING_TIMES } from "./constants";
+import {
+  DONT_TOUCH_LABEL,
+  TOUCHED_LABEL,
+  TRAINING_TIMES,
+} from "./constants.js";
 
 import "@tensorflow/tfjs-backend-cpu";
 import * as tf from "@tensorflow/tfjs";
