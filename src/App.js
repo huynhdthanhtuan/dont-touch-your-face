@@ -1,23 +1,26 @@
-import "./Content.css";
-import sound from "./sound.js";
-import TrainDontTouchButton from "../Buttons/TrainDontTouchButton";
-import TrainTouchedButton from "../Buttons/TrainTouchedButton";
-import RunButton from "../Buttons/RunButton";
+import "./App.css";
+import sound from "./sound";
+import {
+  TrainNotWearMaskButton,
+  TrainWearedMaskButton,
+  RunButton,
+} from "./components";
 
 import { useEffect, useRef, useState } from "react";
 import { initNotifications, notify } from "@mycv/f8-notification";
 import {
-  DONT_TOUCH_LABEL,
-  TOUCHED_LABEL,
+  NOT_WEAR_LABEL,
+  WEARED_LABEL,
   TRAINING_TIMES,
-} from "./constants.js";
+  WEARED_CONFIDENCE,
+} from "./constants";
 
 import "@tensorflow/tfjs-backend-cpu";
 import * as tf from "@tensorflow/tfjs";
 import * as mobilenet from "@tensorflow-models/mobilenet";
 import * as knnClassifier from "@tensorflow-models/knn-classifier";
 
-function Content() {
+function App() {
   const videoRef = useRef();
   const mobilenetModel = useRef();
   const classifierModel = useRef();
@@ -25,9 +28,11 @@ function Content() {
 
   const [isReady, setIsReady] = useState(false);
   const [progessPercent, setProgessPercent] = useState(0);
-  const [isTouched, setIsTouched] = useState(false);
-  const [isEnabledTrainDontTouch, setIsEnabledTrainDontTouch] = useState(false);
-  const [isEnabledTrainTouched, setIsEnabledTrainTouched] = useState(false);
+  const [isNotWearMask, setIsNotWearMask] = useState(false);
+  const [isEnabledTrainNotWearMask, setIsEnabledTrainNotWearMask] =
+    useState(false);
+  const [isEnabledTrainWearedMask, setIsEnabledTrainWearedMask] =
+    useState(false);
   const [isEnabledRun, setIsEnabledRun] = useState(false);
 
   const init = async () => {
@@ -41,7 +46,7 @@ function Content() {
 
     console.log("Ứng dụng đã sẵn sàng...");
     setIsReady(true);
-    setIsEnabledTrainDontTouch(true);
+    setIsEnabledTrainNotWearMask(true);
   };
 
   const setupCamera = () => {
@@ -85,13 +90,13 @@ function Content() {
     }
 
     // Bước 1 xong: Ẩn bước 1, hiện bước 2
-    if (label === DONT_TOUCH_LABEL) {
-      setIsEnabledTrainDontTouch(false);
-      setIsEnabledTrainTouched(true);
+    if (label === NOT_WEAR_LABEL) {
+      setIsEnabledTrainNotWearMask(false);
+      setIsEnabledTrainWearedMask(true);
     }
     // Bước 2 xong: Ẩn bước 2, hiện bước 3
     else {
-      setIsEnabledTrainTouched(false);
+      setIsEnabledTrainWearedMask(false);
       setIsEnabledRun(true);
     }
   };
@@ -116,12 +121,12 @@ function Content() {
     // So sánh luồng ảnh hiện tại với dữ liệu đã train trước đó
     const result = await classifierModel.current.predictClass(embedding);
 
-    // Nếu chạm tay lên mặt
+    // Nếu không đeo khẩu trang
     if (
-      result.label === TOUCHED_LABEL &&
-      result.confidences[TOUCHED_LABEL] === 1
+      result.label === NOT_WEAR_LABEL &&
+      result.confidences[NOT_WEAR_LABEL] > WEARED_CONFIDENCE
     ) {
-      setIsTouched(true);
+      setIsNotWearMask(true);
 
       // Phát ra âm thanh cảnh báo
       if (canPlaySound.current) {
@@ -132,7 +137,7 @@ function Content() {
       // Show cảnh báo
       showNotification();
     } else {
-      setIsTouched(false);
+      setIsNotWearMask(false);
     }
 
     await sleep(200);
@@ -144,7 +149,9 @@ function Content() {
   };
 
   const showNotification = () => {
-    notify("Bỏ tay xuống!!", { body: "Vui lòng bỏ tay xuống!!!" });
+    notify("Đeo khẩu trang!!", {
+      body: "Xin vui lòng đeo khẩu trang!!!",
+    });
   };
 
   useEffect(() => {
@@ -160,23 +167,23 @@ function Content() {
   }, []);
 
   return (
-    <div className={"app " + (isTouched ? "touched" : "")}>
+    <div className={"app " + (isNotWearMask ? "when-not-wear-mask" : "")}>
       <div className="main">
-        <h5 className="title mt-2">Ứng dụng "Đừng chạm tay lên mặt"</h5>
+        <h5 className="title mt-2">Ứng dụng cảnh báo đeo khẩu trang</h5>
 
         <video ref={videoRef} className="videoElement" autoPlay />
 
         <div className="control">
           {isReady ? (
             <>
-              {isEnabledTrainDontTouch && (
-                <TrainDontTouchButton
+              {isEnabledTrainNotWearMask && (
+                <TrainNotWearMaskButton
                   onClick={train}
                   progessPercent={progessPercent}
                 />
               )}
-              {isEnabledTrainTouched && (
-                <TrainTouchedButton
+              {isEnabledTrainWearedMask && (
+                <TrainWearedMaskButton
                   onClick={train}
                   progessPercent={progessPercent}
                 />
@@ -194,4 +201,4 @@ function Content() {
   );
 }
 
-export default Content;
+export default App;

@@ -22,7 +22,7 @@ function RunButton({ onClick }) {
         </div>
       ) : (
         <h5 className="mt-2 guide-text">
-          Máy AI đang theo dõi cử chỉ tay của bạn...
+          Máy AI đang theo dõi khuôn mặt của bạn...
         </h5>
       )}
     </>

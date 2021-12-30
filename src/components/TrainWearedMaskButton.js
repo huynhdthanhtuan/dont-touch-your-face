@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { DONT_TOUCH_LABEL } from "../Content/constants";
+import { WEARED_LABEL } from "../constants";
 
-function TrainDontTouchButton({ onClick, progessPercent }) {
+function TrainWearedMaskButton({ onClick, progessPercent }) {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   return (
@@ -9,13 +9,14 @@ function TrainDontTouchButton({ onClick, progessPercent }) {
       {!isButtonClicked ? (
         <div>
           <h5 className="mt-2 guide-text">
-            Bước 1: Quay video không chạm tay lên mặt!
+            Bước 2: Quay video đeo khẩu trang. Hãy đeo khẩu trang trước khi bấm
+            Thực hiện
           </h5>
           <button
             className="btn btn-primary btn-control"
             onClick={() => {
               setIsButtonClicked(true);
-              onClick(DONT_TOUCH_LABEL);
+              onClick(WEARED_LABEL);
             }}
           >
             Thực hiện
@@ -23,7 +24,7 @@ function TrainDontTouchButton({ onClick, progessPercent }) {
         </div>
       ) : (
         <h5 className="mt-2 guide-text">
-          Không đưa tay lên mặt cho đến khi hoàn thành!
+          Luôn đeo khẩu trang cho đến khi hoàn thành!
           <br />
           Máy đang học {progessPercent}%
         </h5>
@@ -32,4 +33,4 @@ function TrainDontTouchButton({ onClick, progessPercent }) {
   );
 }
 
-export default TrainDontTouchButton;
+export default TrainWearedMaskButton;
