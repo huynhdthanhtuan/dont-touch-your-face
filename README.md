@@ -1,4 +1,4 @@
-# Ứng dụng "Đừng chạm tay lên mặt"
+# Ứng dụng cảnh báo đeo khẩu trang
 
 ## Công nghệ: ReactJS, TensoflowJS
 
