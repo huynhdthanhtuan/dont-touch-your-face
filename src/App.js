@@ -57,7 +57,7 @@ function App() {
 
       if (getUserMedia) {
         // Yêu cầu của luồng video
-        const constraints = { video: { facingMode: "user" } };
+        const constraints = { audio: true, video: true };
 
         // Lấy ra luồng video của thiết bị
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
